@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Pip-Boy 3000 Design System - Fallout Terminal Aesthetic */
+
+@layer base {
+  :root {
+    /* Terminal Color Palette */
+    --background: 120 15% 4%;              /* Dark terminal background */
+    --foreground: 120 100% 85%;            /* Bright green terminal text */
+    
+    --terminal-green: 120 100% 85%;        /* Classic terminal green */
+    --terminal-dark: 120 15% 4%;           /* Deep terminal black */
+    --terminal-amber: 45 100% 60%;         /* Amber highlights */
+    --terminal-dim: 120 50% 35%;           /* Dimmed green */
+    --terminal-bright: 120 100% 95%;       /* Bright white-green */
+    
+    /* UI Components */
+    --card: 120 25% 6%;                    /* Slightly lighter card background */
+    --card-foreground: 120 100% 85%;
+
+    --popover: 120 25% 8%;
+    --popover-foreground: 120 100% 85%;
+
+    --primary: 120 100% 85%;               /* Terminal green */
+    --primary-foreground: 120 15% 4%;
+
+    --secondary: 120 50% 35%;              /* Dimmed green */
+    --secondary-foreground: 120 100% 95%;
+
+    --muted: 120 25% 8%;                   /* Muted terminal background */
+    --muted-foreground: 120 50% 60%;
+
+    --accent: 45 100% 60%;                 /* Amber accent */
+    --accent-foreground: 120 15% 4%;
+
+    --destructive: 0 100% 60%;             /* Red for errors */
+    --destructive-foreground: 120 100% 95%;
+
+    --border: 120 50% 25%;                 /* Green border */
+    --input: 120 25% 8%;
+    --ring: 120 100% 85%;
+
+    --radius: 2px;                         /* Sharp, terminal-like corners */
+
+    /* Pip-Boy specific colors */
+    --pip-green: 120 100% 85%;
+    --pip-amber: 45 100% 60%;
+    --pip-dark: 120 15% 4%;
+    --pip-dim: 120 50% 35%;
+    --pip-screen: 120 25% 6%;
+    --pip-glow: 120 100% 85%;
+    
+    /* Scan line animation */
+    --scan-opacity: 0.1;
+  }
+
+  /* Single terminal theme - no dark mode toggle needed */
+  .dark {
+    --background: 120 15% 4%;
+    --foreground: 120 100% 85%;
+    --card: 120 25% 6%;
+    --card-foreground: 120 100% 85%;
+    --popover: 120 25% 8%;
+    --popover-foreground: 120 100% 85%;
+    --primary: 120 100% 85%;
+    --primary-foreground: 120 15% 4%;
+    --secondary: 120 50% 35%;
+    --secondary-foreground: 120 100% 95%;
+    --muted: 120 25% 8%;
+    --muted-foreground: 120 50% 60%;
+    --accent: 45 100% 60%;
+    --accent-foreground: 120 15% 4%;
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 120 100% 95%;
+    --border: 120 50% 25%;
+    --input: 120 25% 8%;
+    --ring: 120 100% 85%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    overflow-x: hidden;
+  }
+
+  /* Terminal glow effects */
+  .terminal-glow {
+    text-shadow: 0 0 10px hsl(var(--pip-glow)), 0 0 20px hsl(var(--pip-glow)), 0 0 30px hsl(var(--pip-glow));
+  }
+
+  .terminal-border {
+    border: 2px solid hsl(var(--pip-green));
+    box-shadow: 
+      0 0 10px hsl(var(--pip-green) / 0.3),
+      inset 0 0 10px hsl(var(--pip-green) / 0.1);
+  }
+
+  /* CRT Scan lines effect */
+  .scan-lines::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      transparent 50%,
+      hsl(var(--pip-green) / var(--scan-opacity)) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Flickering animation for authentic CRT feel */
+  .terminal-flicker {
+    animation: flicker 0.15s infinite linear;
+  }
+
+  @keyframes flicker {
+    0% { opacity: 1; }
+    98% { opacity: 1; }
+    99% { opacity: 0.98; }
+    100% { opacity: 1; }
+  }
+
+  /* Typing animation */
+  .typewriter {
+    overflow: hidden;
+    border-right: 2px solid hsl(var(--pip-green));
+    white-space: nowrap;
+    animation: typing 2s steps(40, end), blink 0.5s step-end infinite alternate;
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+  /* Progress bar animations */
+  .stat-bar {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--pip-green)) 0%,
+      hsl(var(--pip-amber)) 70%,
+      hsl(var(--destructive)) 100%
+    );
+    background-size: 200% 100%;
+    animation: stat-glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes stat-glow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+}
